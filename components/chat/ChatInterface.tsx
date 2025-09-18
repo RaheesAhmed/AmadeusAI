@@ -56,7 +56,7 @@ export function ChatInterface() {
 
     try {
       // Call server-side API route with streaming
-      const response = await fetch('/api/n8n-workflow', {
+      const response = await fetch('/api/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -250,15 +250,15 @@ export function ChatInterface() {
               {/* Example Prompt Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-3xl">
                 {[
-                  "Create a Slack notification workflow when GitHub issues are created",
-                  "Build an automated email sequence for new subscribers",
-                  "Set up data sync between Google Sheets and Airtable",
-                  "Monitor website changes and send Discord alerts"
+                  "What are the basic Amadeus commands for flight booking?",
+                  "How do I use the availability display in Amadeus?",
+                  "Explain the PNR creation process step by step",
+                  "What are the different fare calculation methods?"
                 ].map((example, index) => (
                   <button
                     key={index}
                     onClick={() => handleFillInput(example)}
-                    className="text-left p-4 rounded-lg border border-border bg-card hover:bg-card-hover hover:border-primary/30 transition-all duration-200 text-sm text-foreground-muted hover:text-foreground group"
+                    className="text-left p-4 rounded-lg border border-border bg-card hover:bg-card-hover hover:border-[#1E40AF]/30 transition-all duration-200 text-sm text-foreground-muted hover:text-foreground group"
                     disabled={isLoading}
                   >
                     <span className="block truncate">{example}</span>

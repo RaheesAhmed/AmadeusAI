@@ -10,7 +10,7 @@ export function WelcomeScreen() {
           <Logo variant="full" className="justify-center" />
         </div>
         <p className="text-lg text-foreground-muted leading-relaxed">
-          How can I help you create n8n workflows today?
+          Ready to learn Amadeus GDS? Let's start your travel industry journey!
         </p>
       </div>
     </div>

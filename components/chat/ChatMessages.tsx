@@ -181,9 +181,9 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
               <div className="glass border border-border px-4 py-3 rounded-2xl">
                 <div className="flex items-center justify-center">
                   <div className="flex space-x-1">
-                    <div className="size-2 bg-brand-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                    <div className="size-2 bg-brand-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                    <div className="size-2 bg-brand-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    <div className="size-2 bg-[#1E40AF] rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="size-2 bg-[#3B82F6] rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="size-2 bg-[#60A5FA] rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                   </div>
                 </div>
               </div>

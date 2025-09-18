@@ -65,7 +65,7 @@ export function ChatInput({ onSendMessage, isLoading, hasMessages, value, onChan
               value={message}
               onChange={handleTextareaChange}
               onKeyDown={handleKeyDown}
-              placeholder={hasMessages ? "Ask a follow-up question..." : "How can I help you create n8n workflows today?"}
+              placeholder={hasMessages ? "Ask a follow-up question..." : "What would you like to learn about Amadeus GDS today?"}
               className="w-full resize-none border-0 bg-transparent px-0 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-0 text-base leading-6"
               style={{ 
                 minHeight: '24px',
@@ -82,7 +82,7 @@ export function ChatInput({ onSendMessage, isLoading, hasMessages, value, onChan
             disabled={!message.trim() || isLoading}
             className={`shrink-0 size-10 p-2 rounded-xl transition-all duration-300 ${
               message.trim() && !isLoading
-                ? 'bg-gradient-to-r from-[#FF6D6B] to-[#FF5A57] hover:from-[#FF5A57] hover:to-[#FF4F4C] text-white shadow-lg hover:scale-110'
+                ? 'bg-gradient-to-r from-[#1E40AF] to-[#3B82F6] hover:from-[#2563EB] hover:to-[#1D4ED8] text-white shadow-lg hover:scale-110'
                 : 'bg-muted text-muted-foreground hover:bg-muted/80'
             }`}
           >
