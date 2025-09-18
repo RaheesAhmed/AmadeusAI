@@ -26,11 +26,18 @@ export function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [threadId, setThreadId] = useState<string>('');
+
+  // Generate a unique thread ID for the session
+  const generateThreadId = () => {
+    return `thread_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`;
+  };
 
   const handleNewChat = () => {
     setMessages([]);
     setIsLoading(false);
     setInputValue('');
+    setThreadId(generateThreadId()); // Generate new thread ID for new chat
   };
 
   const handleFillInput = (content: string) => {
@@ -39,6 +46,13 @@ export function ChatInterface() {
 
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) return;
+
+    // Initialize thread ID if not already set (first message)
+    let currentThreadId = threadId;
+    if (!currentThreadId) {
+      currentThreadId = generateThreadId();
+      setThreadId(currentThreadId);
+    }
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -55,13 +69,16 @@ export function ChatInterface() {
     let assistantMessageCreated = false;
 
     try {
-      // Call server-side API route with streaming
+      // Call server-side API route with streaming, including thread ID
       const response = await fetch('/api/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: content.trim() }),
+        body: JSON.stringify({
+          message: content.trim(),
+          threadId: currentThreadId
+        }),
       });
 
       if (!response.ok) {

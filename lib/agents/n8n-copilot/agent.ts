@@ -8,6 +8,7 @@ import { ChatAnthropic } from '@langchain/anthropic';
 import { AMADEUS_TEACHER_SYSTEM_PROMPT } from './prompts/system-prompt';
 import { createRetrievalTool } from '../../tools/retrieval-tool';
 import type { N8nCopilotConfig } from './types';
+import { MemorySaver } from "@langchain/langgraph";
 
 /**
  * Default configuration for Amadeus Learning Assistant
@@ -19,6 +20,8 @@ const DEFAULT_CONFIG: N8nCopilotConfig = {
   enableSubAgents: false,
   customNodes: []
 };
+
+const memory = new MemorySaver();
 
 /**
  * Create n8nCopilot Agent with specified configuration
@@ -55,6 +58,7 @@ export function createN8nCopilotAgent(config: N8nCopilotConfig = {}): any {
     ],
     stateModifier: AMADEUS_TEACHER_SYSTEM_PROMPT,
     llm: model,
+    checkpointSaver: memory,
   });
 
   return agent;
@@ -103,7 +107,8 @@ export function validateN8nCopilotEnvironment(): {
  */
 export async function* streamWorkflowGeneration(
   description: string,
-  config: N8nCopilotConfig = {}
+  config: N8nCopilotConfig = {},
+  threadId?: string
 ): AsyncGenerator<any, void, unknown> {
   const agent = createN8nCopilotAgent(config);
   
@@ -115,10 +120,16 @@ export async function* streamWorkflowGeneration(
   ];
 
   try {
+    // Configure with thread_id for memory persistence
+    const streamConfig: any = { streamMode: ["updates", "messages"] };
+    if (threadId) {
+      streamConfig.configurable = { thread_id: threadId };
+    }
+
     // Use multiple stream modes to see both updates (tool calls) and messages
     const stream = await agent.stream(
       { messages },
-      { streamMode: ["updates", "messages"] }
+      streamConfig
     );
 
     for await (const chunk of stream) {
@@ -305,7 +316,8 @@ export async function* streamWorkflowGeneration(
  */
 export async function* streamWorkflowUpdates(
   description: string,
-  config: N8nCopilotConfig = {}
+  config: N8nCopilotConfig = {},
+  threadId?: string
 ): AsyncGenerator<any, void, unknown> {
   const agent = createN8nCopilotAgent(config);
   
@@ -317,10 +329,16 @@ export async function* streamWorkflowUpdates(
   ];
 
   try {
+    // Configure with thread_id for memory persistence
+    const streamConfig: any = { streamMode: "updates" };
+    if (threadId) {
+      streamConfig.configurable = { thread_id: threadId };
+    }
+
     // Use stream with updates mode to see tool calls and state changes
     const stream = await agent.stream(
       { messages },
-      { streamMode: "updates" }
+      streamConfig
     );
 
     for await (const chunk of stream) {

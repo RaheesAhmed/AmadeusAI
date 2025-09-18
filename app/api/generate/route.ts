@@ -3,7 +3,7 @@ import { streamWorkflowGeneration } from '@/lib/agents/n8n-copilot';
 
 export async function POST(request: NextRequest) {
   try {
-    const { message } = await request.json();
+    const { message, threadId } = await request.json();
     
     if (!message) {
       return NextResponse.json({ error: 'Message is required' }, { status: 400 });
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
         try {
           const workflowStream = streamWorkflowGeneration(message, {
             anthropicApiKey
-          });
+          }, threadId);
 
           for await (const event of workflowStream) {
             console.log('🔄 Streaming event type:', event.type);
