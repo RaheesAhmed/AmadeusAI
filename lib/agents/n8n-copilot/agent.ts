@@ -120,11 +120,12 @@ export async function* streamWorkflowGeneration(
   ];
 
   try {
-    // Configure with thread_id for memory persistence
-    const streamConfig: any = { streamMode: ["updates", "messages"] };
-    if (threadId) {
-      streamConfig.configurable = { thread_id: threadId };
-    }
+    // Configure with thread_id for memory persistence (required when using MemorySaver)
+    const finalThreadId = threadId || `default_${Date.now()}`;
+    const streamConfig: any = {
+      streamMode: ["updates", "messages"],
+      configurable: { thread_id: finalThreadId }
+    };
 
     // Use multiple stream modes to see both updates (tool calls) and messages
     const stream = await agent.stream(
@@ -329,11 +330,12 @@ export async function* streamWorkflowUpdates(
   ];
 
   try {
-    // Configure with thread_id for memory persistence
-    const streamConfig: any = { streamMode: "updates" };
-    if (threadId) {
-      streamConfig.configurable = { thread_id: threadId };
-    }
+    // Configure with thread_id for memory persistence (required when using MemorySaver)
+    const finalThreadId = threadId || `default_${Date.now()}`;
+    const streamConfig: any = {
+      streamMode: "updates",
+      configurable: { thread_id: finalThreadId }
+    };
 
     // Use stream with updates mode to see tool calls and state changes
     const stream = await agent.stream(

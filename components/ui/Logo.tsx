@@ -467,6 +467,7 @@ export function TextLogo({
         >
           Amadeus
         </span>
+        
        
       </div>
     </div>
