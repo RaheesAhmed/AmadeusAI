@@ -42,7 +42,7 @@ export function createGalileoAgent(config: N8nCopilotConfig = {}): any {
     model: "claude-sonnet-4-20250514",
     anthropicApiKey: anthropicKey as string,
     temperature: 0.1,
-    maxTokens: 4096,
+    maxTokens: 500,
   });
 
   // Create ReAct Agent with web search tool (using the same pattern as basic-test.js)
